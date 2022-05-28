@@ -263,10 +263,6 @@ class Arm(pygame.sprite.Sprite):
         rel_x, rel_y = mousex - self.rect.x, mousey - self.rect.y
         angle = (180 / math.pi) * -math.atan2(rel_y, rel_x)
         self.angle -= angle
-        if self.angle >= 360:
-            self.angle -= 360
-        if self.angle >= -360:
-            self.angle -= -360
         self.newimage = pygame.transform.rotate(self.image, angle-180)
 
 

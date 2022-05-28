@@ -25,6 +25,7 @@ pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 def main():
     # Спрайты/Sprites
 
+    pitems = []
     player = Player()
     items = pygame.sprite.Group()
     zombies = pygame.sprite.Group()
@@ -73,9 +74,11 @@ def main():
                     for item in items:
                         if (player.rect2.centerx - item.rect.centerx <= 70 and player.rect2.centerx - item.rect.centerx >= -70) and (player.rect2.centery - item.rect.centery <= 70 and player.rect2.centery - item.rect.centery >= -70):
                             if item.id == "pistol":
-                                print("Fss")
                                 arm = item.id
                             item.kill()
+                if event.key == pygame.K_z and arm != None:
+                    arm = None
+                    pitems.append(player.arm)
 
 
 
@@ -118,21 +121,28 @@ def main():
         if arm != player.arm:
             playerarm = Arm(pygame.image.load(r"images/player/arms/arm with uzi.png"), player.rect.midright, "Uzi")
 
-
-        while zcadr == 10:
-            zx = randint(-500, 2000)
-            zy = randint(-300, 1700)
-
+        i = 0
+        while len(zombies) <= 1000 and i <= 10:
+            zx = randint(-5000, 20000)
+            zy = randint(-3000, 17000)
 
             if (
-                    player.rect2.centerx - zx <= 1080 or player.rect2.centerx - zx >= -1080) and (
-                    player.rect2.centery - zy <= 750 or player.rect2.centery - zy >= -750):
+                    abs(player.rect2.centerx - zx) >= 1080 and
+                    abs(player.rect2.centery - zy) >= 750):
+
+                type = randint(1, 10)
+                if type >= 9:
+                    type = "polzun"
+                elif type >= 7:
+                    type = "runer"
+                else:
+                    type = None
 
 
-                zombie = Zombie((zx, zy), "polzun")
+                zombie = Zombie((zx, zy), type)
                 zombies.add(zombie)
                 zcadr = 0
-        zcadr += 1
+                i += 1
 
 
         # Рендеринг/Rendering
@@ -283,7 +293,6 @@ def gameover():
                     sys.exit()
             if event.type == pygame.MOUSEBUTTONUP:
                 if rect.collidepoint(pygame.mouse.get_pos()):
-                    print("fdf")
                     main()
 
 

@@ -36,14 +36,12 @@ class Zombie(pygame.sprite.Sprite):
                 p = pygame.image.load(f"images/zombies/zombie 1/run/run{i + 1}.png")
                 p = pygame.transform.scale(p, (p.get_width() * 5, p.get_height() * 5))
                 self.imagesrun.append(p)
-                print(p)
 
         self.image = self.imagestay
         self.rect = self.image.get_rect()
         self.rect.center = coords
         self.rect2 = self.colideimage.get_rect()
         self.rect2.midbottom = self.rect.midbottom
-        print(self.rect)
         self.up = False
         self.down = False
         self.righty = False
