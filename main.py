@@ -120,13 +120,13 @@ def main():
 
 
         while zcadr == 10:
-            zx = randint(-1200, 1200)
-            zy = randint(-1200, 1200)
+            zx = randint(-500, 2000)
+            zy = randint(-300, 1700)
 
 
             if (
-                    zx <= 1080 or zx <= 1080) and (
-                    zy <= 750 or zy <= 750):
+                    player.rect2.centerx - zx <= 1080 or player.rect2.centerx - zx >= -1080) and (
+                    player.rect2.centery - zy <= 750 or player.rect2.centery - zy >= -750):
 
 
                 zombie = Zombie((zx, zy), "polzun")
