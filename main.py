@@ -5,6 +5,7 @@ from item import Item
 from zombie import Zombie
 from box import Box
 from tile import Tile
+from random import randint
 
 pygame.init()
 
@@ -30,8 +31,6 @@ def main():
     boxes = pygame.sprite.Group()
     pistol = Item(pygame.image.load("images/predmeti/Uzi.png"), (-100, 100), "pistol")
     items.add(pistol)
-    zombie = Zombie((-500, 300), "polzun")
-    zombies.add(zombie)
     arm = None
     font = pygame.font.Font(r"OutlinePixel7.ttf", 72)
     cadrhp = 0
@@ -43,6 +42,7 @@ def main():
     cursor_shot_rect = cursor_shot.get_rect()
     box = Box(pygame.image.load(r"images/box3.png"), (1221, 543), "box")
     boxes.add(box)
+    zcadr = 0
 
 
     running = True
@@ -118,6 +118,21 @@ def main():
         if arm != player.arm:
             playerarm = Arm(pygame.image.load(r"images/player/arms/arm with uzi.png"), player.rect.midright, "Uzi")
 
+
+        while zcadr == 10:
+            zx = randint(-1200, 1200)
+            zy = randint(-1200, 1200)
+
+
+            if (
+                    zx <= 1080 or zx <= 1080) and (
+                    zy <= 750 or zy <= 750):
+
+
+                zombie = Zombie((zx, zy), "polzun")
+                zombies.add(zombie)
+                zcadr = 0
+        zcadr += 1
 
 
         # Рендеринг/Rendering
@@ -215,7 +230,8 @@ def main():
         pygame.display.update()
 
         cadrhp += 1
-        zombie.hpcadr += 1
+        for zombie in zombies:
+            zombie.hpcadr += 1
         cadreat += 1
         if cadreat >= 1000:
             player.eat -= 1

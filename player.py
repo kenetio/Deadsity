@@ -254,10 +254,10 @@ class Arm(pygame.sprite.Sprite):
             self.right = False
 
         if self.right == False and self.oldr == True:
-            #self.newimage = pygame.transform.flip(self.newimage, True, False)
+            self.newimage = pygame.transform.flip(self.newimage, True, False)
             self.oldr = False
         elif self.right == True and self.oldr == False:
-            #self.newimage = pygame.transform.flip(self.newimage, True, False)
+            self.newimage = pygame.transform.flip(self.newimage, True, False)
             self.oldr = True
 
         rel_x, rel_y = mousex - self.rect.x, mousey - self.rect.y
