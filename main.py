@@ -120,7 +120,7 @@ def main():
                 zombie.image = zombie.imagestay
 
         if arm != player.arm:
-            playerarm = Arm(pygame.image.load(r"images/player/arms/arm with uzi.png"), player.rect.midright, "Uzi")
+            playerarm = Arm(pygame.image.load(r"images/player/arms/arm with uzi.png"), (960, 520), "Uzi")
 
         i = 0
         while len(zombies) <= 1000 and i <= 10:
@@ -227,7 +227,7 @@ def main():
 
         # Обновление спрайтов/Updating sprites
         if player.arm == "pistol":
-            playerarm.update()
+            playerarm.update(player.right)
 
         player.uaap(arm, boxes)
         for item in items:

@@ -235,7 +235,7 @@ class Arm(pygame.sprite.Sprite):
                                                 (image.get_width() * 5, image.get_height() * 5))
         self.newimage = pygame.transform.scale(image,
                                             (image.get_width() * 5, image.get_height() * 5))
-        self.rect = self.newimage.get_rect()
+        self.rect = self.image.get_rect()
         self.rect.center = coords
         self.id = id
         self.right = False
@@ -245,13 +245,14 @@ class Arm(pygame.sprite.Sprite):
     def draw(self, surface):
         surface.blit(self.newimage, self.rect)
 
-    def update(self):
+    def update(self, r):
 
         mousex, mousey = pygame.mouse.get_pos()
-        if mousex >= self.rect.centerx:
-            self.right = True
+
+        if r == True:
+            self.rect.center = (943, 527)
         else:
-            self.right = False
+            self.rect.center = (982, 527)
 
         if self.right == False and self.oldr == True:
             self.newimage = pygame.transform.flip(self.newimage, True, False)
@@ -264,6 +265,8 @@ class Arm(pygame.sprite.Sprite):
         angle = (180 / math.pi) * -math.atan2(rel_y, rel_x)
         self.angle -= angle
         self.newimage = pygame.transform.rotate(self.image, angle-180)
+
+        self.rect = self.newimage.get_rect(center=(self.rect.centerx, self.rect.centery))
 
 
 
