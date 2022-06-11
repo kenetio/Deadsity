@@ -21,7 +21,6 @@ clock = pygame.time.Clock()
 
 pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 
-
 def main():
     # Спрайты/Sprites
 
@@ -74,6 +73,8 @@ def main():
                     for item in items:
                         if (player.rect2.centerx - item.rect.centerx <= 70 and player.rect2.centerx - item.rect.centerx >= -70) and (player.rect2.centery - item.rect.centery <= 70 and player.rect2.centery - item.rect.centery >= -70):
                             if item.id == "pistol":
+                                arm = item.id
+                            if item.id == "bread":
                                 arm = item.id
                             item.kill()
                 if event.key == pygame.K_z and arm != None:
