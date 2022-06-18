@@ -227,7 +227,7 @@ def main():
 
         # Обновление спрайтов/Updating sprites
         if player.arm == "pistol":
-            playerarm.update(player.right)
+            playerarm.update(player.right, player.runimage)
 
         player.uaap(arm, boxes)
         for item in items:

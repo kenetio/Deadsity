@@ -139,9 +139,12 @@ class Zombie(pygame.sprite.Sprite):
             if self.cadr >= 8:
                 self.image = self.imagesrun[self.runimage]
                 self.runimage += 1
-                if self.runimage >= 5:
-                    self.runimage = 1
-
+                if self.type != "polzun":
+                    if self.runimage >= 12:
+                        self.runimage = 1
+                else:
+                    if self.runimage >= 5:
+                        self.runimage = 1
                 self.cadr = 0
                 if self.right == False:
                     self.image = pygame.transform.flip(self.image, True, False)

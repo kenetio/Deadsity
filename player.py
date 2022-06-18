@@ -245,7 +245,7 @@ class Arm(pygame.sprite.Sprite):
     def draw(self, surface):
         surface.blit(self.newimage, self.rect)
 
-    def update(self, r):
+    def update(self, r, pimg):
 
         mousex, mousey = pygame.mouse.get_pos()
 
@@ -260,6 +260,9 @@ class Arm(pygame.sprite.Sprite):
         elif self.right == True and self.oldr == False:
             self.newimage = pygame.transform.flip(self.newimage, True, False)
             self.oldr = True
+
+        if (pimg >= 2 and pimg <= 5) or (pimg >= 10 and pimg <= 13):
+            self.rect.y -= 5
 
         rel_x, rel_y = mousex - self.rect.x, mousey - self.rect.y
         angle = (180 / math.pi) * -math.atan2(rel_y, rel_x)
