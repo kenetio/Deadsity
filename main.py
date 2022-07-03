@@ -6,6 +6,7 @@ from zombie import Zombie
 from box import Box
 from tile import Tile
 from random import randint
+import time
 
 pygame.init()
 
@@ -25,6 +26,7 @@ def main():
     # Спрайты/Sprites
 
     pitems = []
+    uron = []
     player = Player()
     items = pygame.sprite.Group()
     zombies = pygame.sprite.Group()
@@ -33,6 +35,7 @@ def main():
     items.add(pistol)
     arm = None
     font = pygame.font.Font(r"OutlinePixel7.ttf", 72)
+    sfont = pygame.font.Font(r"OutlinePixel7.ttf", 32)
     cadrhp = 0
     cadreat = 0
     cadrtrink = 0
@@ -43,11 +46,16 @@ def main():
     box = Box(pygame.image.load(r"images/box3.png"), (1221, 543), "box")
     boxes.add(box)
     zcadr = 0
+    debug = True
 
+    if debug:
+        font = pygame.font.Font(r"OutlinePixel7.ttf", 36)
 
     running = True
+
     while running:
         # Частота обновления экрана/Screen refresh rate
+        print(time.time())
         clock.tick(FPS)
 
         # События/Events
@@ -106,6 +114,9 @@ def main():
                         if zombie.hpcadr >= 20:
                             player.hp -= 15
                             zombie.hpcadr = 0
+                            text = font.render(
+                                ("- 15"), True, (255, 0, 0))
+                            uron.append(text)
                     else:
                         zombie.uaap(player.rect2.centerx, player.rect2.centery, boxes)
 
@@ -131,10 +142,10 @@ def main():
                     abs(player.rect2.centerx - zx) >= 1080 and
                     abs(player.rect2.centery - zy) >= 750):
 
-                type = randint(1, 10)
-                if type >= 9:
+                type = randint(1, 100)
+                if type >= 90:
                     type = "polzun"
-                elif type >= 7:
+                elif type >= 70:
                     type = "runer"
                 else:
                     type = None
@@ -146,6 +157,10 @@ def main():
                 i += 1
 
 
+
+
+
+
         # Рендеринг/Rendering
         screen.fill((167, 201, 176))
         items.draw(screen)
@@ -154,69 +169,91 @@ def main():
         player.draw(screen)
         if player.arm == "pistol":
             playerarm.draw(screen)
-        text = font.render(
-            (str(player.hp) + "%"), True, (0, 0, 0))
-        screen.blit(text, (1700, 25))
-        text = font.render(
-            (str(player.eat) + "%"), True, (0, 0, 0))
-        screen.blit(text, (1700, 100))
-        text = font.render(
-            (str(player.trink) + "%"), True, (0, 0, 0))
-        screen.blit(text, (1700, 175))
-        if player.hp >= 76:
-            image = pygame.image.load(r"images/heart/heart 1.png")
-            image = pygame.transform.scale(image, (image.get_width()*4, image.get_height()*4))
-            screen.blit(image, (1625, 30))
-        elif player.hp >= 51:
-            image = pygame.image.load(r"images/heart/heart 2.png")
-            image = pygame.transform.scale(image, (image.get_width() * 4, image.get_height() * 4))
-            screen.blit(image, (1625, 30))
-        elif player.hp >= 26:
-            image = pygame.image.load(r"images/heart/heart 3.png")
-            image = pygame.transform.scale(image, (image.get_width() * 4, image.get_height() * 4))
-            screen.blit(image, (1625, 30))
+
+        if debug == False:
+            if player.hp >= 76:
+                image = pygame.image.load(r"images/heart/heart 1.png")
+                image = pygame.transform.scale(image, (image.get_width()*4, image.get_height()*4))
+                screen.blit(image, (1625, 30))
+            elif player.hp >= 51:
+                image = pygame.image.load(r"images/heart/heart 2.png")
+                image = pygame.transform.scale(image, (image.get_width() * 4, image.get_height() * 4))
+                screen.blit(image, (1625, 30))
+            elif player.hp >= 26:
+                image = pygame.image.load(r"images/heart/heart 3.png")
+                image = pygame.transform.scale(image, (image.get_width() * 4, image.get_height() * 4))
+                screen.blit(image, (1625, 30))
+            else:
+                image = pygame.image.load(r"images/heart/heart 4.png")
+                image = pygame.transform.scale(image, (image.get_width() * 4, image.get_height() * 4))
+                screen.blit(image, (1625, 30))
+            if player.eat >= 76:
+                image = pygame.image.load(r"images/hunger/hunger 1.png")
+                image = pygame.transform.scale(image, (image.get_width() * 4, image.get_height() * 4))
+                screen.blit(image, (1625, 105))
+            elif player.eat >= 51:
+                image = pygame.image.load(r"images/hunger/hunger 2.png")
+                image = pygame.transform.scale(image, (image.get_width() * 4, image.get_height() * 4))
+                screen.blit(image, (1625, 105))
+            elif player.eat >= 26:
+                image = pygame.image.load(r"images/hunger/hunger 3.png")
+                image = pygame.transform.scale(image, (image.get_width() * 4, image.get_height() * 4))
+                screen.blit(image, (1625, 105))
+            else:
+                image = pygame.image.load(r"images/hunger/hunger 4.png")
+                image = pygame.transform.scale(image, (image.get_width() * 4, image.get_height() * 4))
+                screen.blit(image, (1625, 105))
+
+            if player.trink >= 76:
+                image = pygame.image.load(r"images/drink/drink 1.png")
+                image = pygame.transform.scale(image, (image.get_width() * 4, image.get_height() * 4))
+                screen.blit(image, (1625, 180))
+            elif player.trink >= 51:
+                image = pygame.image.load(r"images/drink/drink 2.png")
+                image = pygame.transform.scale(image, (image.get_width() * 4, image.get_height() * 4))
+                screen.blit(image, (1625, 180))
+            elif player.trink >= 26:
+                image = pygame.image.load(r"images/drink/drink 3.png")
+                image = pygame.transform.scale(image, (image.get_width() * 4, image.get_height() * 4))
+                screen.blit(image, (1625, 180))
+            else:
+                image = pygame.image.load(r"images/drink/drink 4.png")
+                image = pygame.transform.scale(image, (image.get_width() * 4, image.get_height() * 4))
+                screen.blit(image, (1625, 180))
+
+            text = font.render(
+                (str(player.hp) + "%"), True, (0, 0, 0))
+            screen.blit(text, (1700, 25))
+            text = font.render(
+                (str(player.eat) + "%"), True, (0, 0, 0))
+            screen.blit(text, (1700, 100))
+            text = font.render(
+                (str(player.trink) + "%"), True, (0, 0, 0))
+            screen.blit(text, (1700, 175))
         else:
-            image = pygame.image.load(r"images/heart/heart 4.png")
-            image = pygame.transform.scale(image, (image.get_width() * 4, image.get_height() * 4))
-            screen.blit(image, (1625, 30))
+            text = font.render(
+                ("DEBUG MODE: " + " player image = " + str(player.runimage) + " player hp = " + str(player.hp) + " player hunger = " + str(player.eat)), True, (0, 0, 0))
+
+            screen.blit(text, (25, 25))
+            text = font.render(
+                ("player trink = " + str(player.trink)), True, (0, 0, 0))
+            screen.blit(text, (25, 100))
 
 
-        if player.eat >= 76:
-            image = pygame.image.load(r"images/hunger/hunger 1.png")
-            image = pygame.transform.scale(image, (image.get_width()*4, image.get_height()*4))
-            screen.blit(image, (1625, 105))
-        elif player.eat >= 51:
-            image = pygame.image.load(r"images/hunger/hunger 2.png")
-            image = pygame.transform.scale(image, (image.get_width() * 4, image.get_height() * 4))
-            screen.blit(image, (1625, 105))
-        elif player.eat >= 26:
-            image = pygame.image.load(r"images/hunger/hunger 3.png")
-            image = pygame.transform.scale(image, (image.get_width() * 4, image.get_height() * 4))
-            screen.blit(image, (1625, 105))
-        else:
-            image = pygame.image.load(r"images/hunger/hunger 4.png")
-            image = pygame.transform.scale(image, (image.get_width() * 4, image.get_height() * 4))
-            screen.blit(image, (1625, 105))
+
+            for zombie in zombies:
+                 if zombie.rect.collidepoint(pygame.mouse.get_pos()):
+                      x, y = pygame.mouse.get_pos()
+                      text = sfont.render(
+                          ("image = " + str(zombie.runimage) + " x = " + str(
+                              zombie.rect.x) + " y =  " + str(zombie.rect.y) + " type =  " + str(zombie.type)), True, (0, 0, 0))
+
+                      screen.blit(text, (zombie.rect.x - 300, zombie.rect.y - 100))
 
 
-        if player.trink >= 76:
-            image = pygame.image.load(r"images/drink/drink 1.png")
-            image = pygame.transform.scale(image, (image.get_width()*4, image.get_height()*4))
-            screen.blit(image, (1625, 180))
-        elif player.trink >= 51:
-            image = pygame.image.load(r"images/drink/drink 2.png")
-            image = pygame.transform.scale(image, (image.get_width() * 4, image.get_height() * 4))
-            screen.blit(image, (1625, 180))
-        elif player.trink >= 26:
-            image = pygame.image.load(r"images/drink/drink 3.png")
-            image = pygame.transform.scale(image, (image.get_width() * 4, image.get_height() * 4))
-            screen.blit(image, (1625, 180))
-        else:
-            image = pygame.image.load(r"images/drink/drink 4.png")
-            image = pygame.transform.scale(image, (image.get_width() * 4, image.get_height() * 4))
-            screen.blit(image, (1625, 180))
 
-
+        for text in uron:
+            screen.blit(text, (player.rect.x - 10, player.rect.y - 70))
 
         if player.arm == "pistol":
             pygame.mouse.set_visible(False)
@@ -258,16 +295,18 @@ def main():
                 cadrhp = 0
 
 
+        if debug != True:
+            if player.hp <= 0:
+                running = False
+                gameover()
+            if player.eat <= 0:
+                running = False
+                gameover()
+            if player.trink <= 0:
+                running = False
+                gameover()
 
-        if player.hp <= 0:
-            running = False
-            gameover()
-        if player.eat <= 0:
-            running = False
-            gameover()
-        if player.trink <= 0:
-            running = False
-            gameover()
+        print(time.time())
 
 def gameover():
     # Спрайты/Sprites
@@ -306,7 +345,42 @@ def gameover():
         # Обновление экрана/Screen Refresh
         pygame.display.update()
 
+def menu():
+    # Спрайты/Sprites
 
+    background = pygame.image.load(r"images/Background.png")
+    button = pygame.image.load(r"images/restartb.png")
+    rect = button.get_rect()
+    rect.topleft = (800, 700)
+    pygame.mouse.set_visible(True)
+
+    running = True
+    while running:
+        # Частота обновления экрана/Screen refresh rate
+        clock.tick(FPS)
+
+        # События/Events
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    sys.exit()
+            if event.type == pygame.MOUSEBUTTONUP:
+                if rect.collidepoint(pygame.mouse.get_pos()):
+                    main()
+
+
+        # Рендеринг/Rendering
+        screen.fill((255, 255, 255))
+        screen.blit(background, (0, 0))
+        screen.blit(button, (800, 700))
+
+
+        # Обновление экрана/Screen Refresh
+        pygame.display.update()
 
 if __name__ == "__main__":
     main()
