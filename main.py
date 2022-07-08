@@ -7,6 +7,7 @@ from box import Box
 from tile import Tile
 from random import randint
 import time
+import discord
 
 pygame.init()
 
@@ -46,7 +47,7 @@ def main():
     box = Box(pygame.image.load(r"images/box3.png"), (1221, 543), "box")
     boxes.add(box)
     zcadr = 0
-    debug = True
+    debug = False
 
     if debug:
         font = pygame.font.Font(r"OutlinePixel7.ttf", 36)
