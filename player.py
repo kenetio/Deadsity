@@ -272,7 +272,40 @@ class Arm(pygame.sprite.Sprite):
         self.rect = self.newimage.get_rect(center=(self.rect.centerx, self.rect.centery))
 
 
+class Bullet(pygame.sprite.Sprite):
+    def __init__(self, coords, id, speedx = 1, speedy = -1):
+        super().__init__()
+        self.image = pygame.image.load("images/predmeti/bullet.png")
+        self.image = pygame.transform.scale(self.image,
+                                                (self.image.get_width() * 5, self.image.get_height() * 5))
+        self.rect = self.image.get_rect()
+        self.rect.midright = coords
+        self.image = pygame.transform.rotate(self.image, id)
 
+        self.speedx = speedx
+        self.speedy = speedy
+
+    def draw(self, surface):
+        surface.blit(self.newimage, self.rect)
+
+    def update(self):
+        self.rect.x += self.speedx
+        self.rect.y += self.speedy
+
+    def move(self, r, l, u, d, ur):
+        if ur == False:
+            t = -3
+        else:
+            t = -5
+
+        if r:
+           self.rect.x += t
+        if l:
+            self.rect.x -= t
+        if u:
+            self.rect.y -= t
+        if d:
+            self.rect.y += t
 
 
 

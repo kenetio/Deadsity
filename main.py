@@ -1,13 +1,12 @@
 import pygame
 import sys
-from player import Player, Arm
+from player import Player, Arm, Bullet
 from item import Item
 from zombie import Zombie
 from box import Box
-from tile import Tile
+import math
 from random import randint
 import time
-import discord
 
 pygame.init()
 
@@ -34,6 +33,7 @@ def main():
     boxes = pygame.sprite.Group()
     pistol = Item(pygame.image.load("images/predmeti/Uzi.png"), (-100, 100), "pistol")
     items.add(pistol)
+    bullets = pygame.sprite.Group()
     arm = None
     font = pygame.font.Font(r"OutlinePixel7.ttf", 72)
     sfont = pygame.font.Font(r"OutlinePixel7.ttf", 32)
@@ -47,16 +47,25 @@ def main():
     box = Box(pygame.image.load(r"images/box3.png"), (1221, 543), "box")
     boxes.add(box)
     zcadr = 0
-    debug = False
+    debug = True
+    FPS = 60
 
     if debug:
         font = pygame.font.Font(r"OutlinePixel7.ttf", 36)
 
     running = True
 
+    def Shoot():
+        pos_x = pygame.mouse.get_pos()[0]
+        pos_y = pygame.mouse.get_pos()[1]
+        if pos_x != player.rect.centerx or pos_y != player.rect.centery:
+            player.a = pos_x - player.rect.centerx
+            player.b = player.rect.centery - pos_y
+            player.c = math.hypot(player.a, player.b)
+            player.t = player.c / 5
+            speed_x = player.a / player.t
     while running:
         # Частота обновления экрана/Screen refresh rate
-        print(time.time())
         clock.tick(FPS)
 
         # События/Events
@@ -68,6 +77,10 @@ def main():
                 if event.key == pygame.K_ESCAPE:
                     pygame.quit()
                     sys.exit()
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if arm == "pistol":
+                    Shoot()
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_w:
@@ -117,7 +130,7 @@ def main():
                             zombie.hpcadr = 0
                             text = font.render(
                                 ("- 15"), True, (255, 0, 0))
-                            uron.append(text)
+                            #uron.append(text)
                     else:
                         zombie.uaap(player.rect2.centerx, player.rect2.centery, boxes)
 
@@ -170,6 +183,8 @@ def main():
         player.draw(screen)
         if player.arm == "pistol":
             playerarm.draw(screen)
+
+        bullets.draw(screen)
 
         if debug == False:
             if player.hp >= 76:
@@ -237,7 +252,7 @@ def main():
 
             screen.blit(text, (25, 25))
             text = font.render(
-                ("player trink = " + str(player.trink)), True, (0, 0, 0))
+                ("player trink = " + str(player.trink) + " FPS = " + str(FPS)), True, (0, 0, 0))
             screen.blit(text, (25, 100))
 
 
@@ -274,6 +289,9 @@ def main():
             box.move(player.r, player.l, player.u, player.d, player.upf)
         for zombie in zombies:
             zombie.move(player.r, player.l, player.u, player.d, player.upf)
+        for bullet in bullets:
+            bullet.move(player.r, player.l, player.u, player.d, player.upf)
+            bullet.update()
 
         # Обновление экрана/Screen Refresh
         pygame.display.update()
@@ -307,7 +325,6 @@ def main():
                 running = False
                 gameover()
 
-        print(time.time())
 
 def gameover():
     # Спрайты/Sprites
@@ -382,6 +399,7 @@ def menu():
 
         # Обновление экрана/Screen Refresh
         pygame.display.update()
+
 
 if __name__ == "__main__":
     main()
