@@ -80,7 +80,9 @@ def main():
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if arm == "pistol":
-                    Shoot()
+                    #Shoot()
+                    bullet = Bullet((480, 480), 25)
+                    bullets.add(bullet)
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_w:
