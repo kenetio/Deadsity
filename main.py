@@ -81,7 +81,8 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if arm == "pistol":
                     #Shoot()
-                    bullet = Bullet((480, 480), 25)
+                    x, y = pygame.mouse.get_pos()
+                    bullet = Bullet((x, y), 25)
                     bullets.add(bullet)
 
             if event.type == pygame.KEYDOWN:
@@ -150,7 +151,7 @@ def main():
             playerarm = Arm(pygame.image.load(r"images/player/arms/arm with uzi.png"), (960, 520), "Uzi")
 
         i = 0
-        while len(zombies) <= 1000 and i <= 10:
+        while len(zombies) <= 0 and i <= 10:
             zx = randint(-5000, 20000)
             zy = randint(-3000, 17000)
 

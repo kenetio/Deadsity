@@ -273,7 +273,7 @@ class Arm(pygame.sprite.Sprite):
 
 
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self, coords, id, speedx = 1, speedy = -1):
+    def __init__(self, coords, id, speedx = 0, speedy = 0):
         super().__init__()
         self.image = pygame.image.load("images/predmeti/bullet.png")
         self.image = pygame.transform.scale(self.image,
